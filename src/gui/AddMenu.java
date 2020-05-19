@@ -4,6 +4,10 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import gui.frames.AddBreedFrame;
+import gui.frames.AddCityFrame;
+import gui.frames.AddGenderFrame;
+import gui.frames.AddPersonFrame;
 import utils.*;
 
 public class AddMenu extends JMenu{
@@ -42,49 +46,49 @@ public class AddMenu extends JMenu{
 	class AddCatMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-            Log.log.debug("Add cat menu item clicked");
+			
 		}
     }    
     
 	class AddExhibitionMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Log.log.debug("Add exhibition menu item clicked");
+			
 		}
 	}    
     
 	class AddParticipationMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Log.log.debug("Add participation menu item clicked");
+			
 		}
 	}    
     
     class AddPersonMenuItemListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            Log.log.debug("Add person menu item clicked");
+			new AddPersonFrame();
         }
     }
 
     class AddCityMenuItemListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            Log.log.debug("Add city menu item clicked");
+			new AddCityFrame();
         }
     }
     
 	class AddBreedMenuItemListener implements ActionListener{
         @Override
 		public void actionPerformed(ActionEvent e) {
-            Log.log.debug("Add breed menu item clicked");
+			new AddBreedFrame();
 		}
 	}    
     
     class AddGenderMenuItemListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            Log.log.debug("Add gender menu item clicked");
+			new AddGenderFrame();
         }
     }    
 }

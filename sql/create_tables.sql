@@ -43,14 +43,14 @@ CREATE TABLE participation (
   place INTEGER
 );
 
-ALTER TABLE cat ADD FOREIGN KEY (person_id) REFERENCES person (person_id);
+ALTER TABLE cat ADD FOREIGN KEY (person_id) REFERENCES person (person_id) ON DELETE RESTRICT;
 
-ALTER TABLE cat ADD FOREIGN KEY (breed_id) REFERENCES breed (breed_id);
+ALTER TABLE cat ADD FOREIGN KEY (breed_id) REFERENCES breed (breed_id) ON DELETE RESTRICT;
 
-ALTER TABLE participation ADD FOREIGN KEY (cat_id) REFERENCES cat (cat_id);
+ALTER TABLE participation ADD FOREIGN KEY (cat_id) REFERENCES cat (cat_id) ON DELETE RESTRICT;
 
-ALTER TABLE  exhibition ADD FOREIGN KEY (city_id) REFERENCES city (city_id);
+ALTER TABLE  exhibition ADD FOREIGN KEY (city_id) REFERENCES city (city_id) ON DELETE RESTRICT;
 
-ALTER TABLE participation ADD FOREIGN KEY ( exhibition_id) REFERENCES  exhibition ( exhibition_id);
+ALTER TABLE participation ADD FOREIGN KEY ( exhibition_id) REFERENCES  exhibition ( exhibition_id) ON DELETE RESTRICT;
 
-ALTER TABLE cat ADD FOREIGN KEY (gender_id) REFERENCES gender (gender_id);
+ALTER TABLE cat ADD FOREIGN KEY (gender_id) REFERENCES gender (gender_id) ON DELETE RESTRICT;

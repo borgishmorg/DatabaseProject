@@ -7,3 +7,4 @@ class Launcher{
         AppFrame appFrame = AppFrame.appFrame;
     }
 }
+
