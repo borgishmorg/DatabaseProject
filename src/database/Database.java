@@ -2,6 +2,7 @@ package database;
 
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 import utils.*;
 
@@ -97,5 +98,27 @@ public class Database {
     public ResultSet executeQuery(String sql) throws SQLException{
         Log.log.info("Execute: "+sql);
         return statement.executeQuery(sql);
+    }
+
+    public String[][] getDataFromSelect(String table, String label[]) throws SQLException{
+        String data[][] = {};
+            
+        ResultSet rs = Database.database.executeQuery(
+            "SELECT * FROM "+ table +";"
+        );
+        
+        ArrayList<String[]> list = new ArrayList<>();
+
+        while(rs.next()){
+            String arr[] = {};
+            ArrayList<String> arrlist = new ArrayList<>();
+
+            for(String s: label)
+                arrlist.add(rs.getString(s));
+            
+            list.add(arrlist.toArray(arr));
+        }
+        
+        return list.toArray(data);
     }
 }

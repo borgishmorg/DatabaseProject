@@ -1,9 +1,13 @@
 package gui;
 
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import database.Database;
 import utils.*;
 
 public class TableMenu extends JMenu{
@@ -43,13 +47,6 @@ public class TableMenu extends JMenu{
 		@Override
 		public void actionPerformed(ActionEvent e) {
             Log.log.debug("Cat menu item clicked");
-            String column[] = {"Column 1", "Column 2", "Column 3"};
-            String data[][] = {
-                {"1", "2", "3"},
-                {"1", "2", "3"},
-                {"1", "2", "3"},
-            };
-            AppFrame.appFrame.addInternalFrame(new TableFrame(column, data));
 		}
     }    
     
@@ -71,6 +68,15 @@ public class TableMenu extends JMenu{
         @Override
         public void actionPerformed(ActionEvent e) {
             Log.log.debug("Person menu item clicked");
+            try{
+                String column[] = {"person_id", "Человек"};
+                String dataColumn[] = {"person_id", "person"};
+                String data[][] = Database.database.getDataFromSelect("person", dataColumn);
+                
+                AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Люди", column, data));
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+            }
         }
     }
 
@@ -78,6 +84,15 @@ public class TableMenu extends JMenu{
         @Override
         public void actionPerformed(ActionEvent e) {
             Log.log.debug("City menu item clicked");
+            try{
+                String column[] = {"city_id", "Город"};
+                String dataColumn[] = {"city_id", "city"};
+                String data[][] = Database.database.getDataFromSelect("city", dataColumn);
+                
+                AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Города", column, data));
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+            }
         }
     }
     
@@ -85,6 +100,15 @@ public class TableMenu extends JMenu{
         @Override
 		public void actionPerformed(ActionEvent e) {
             Log.log.debug("Breed menu item clicked");
+            try{
+                String column[] = {"breed_id", "Порода"};
+                String dataColumn[] = {"breed_id", "breed"};
+                String data[][] = Database.database.getDataFromSelect("breed", dataColumn);
+                
+                AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Породы", column, data));
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+            }
 		}
 	}    
     
@@ -92,6 +116,15 @@ public class TableMenu extends JMenu{
         @Override
         public void actionPerformed(ActionEvent e) {
             Log.log.debug("Gender menu item clicked");
+            try{
+                String column[] = {"gender_id", "Пол"};
+                String dataColumn[] = {"gender_id", "gender"};
+                String data[][] = Database.database.getDataFromSelect("gender", dataColumn);
+                
+                AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Пол", column, data));
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+            }
         }
     }    
 }
