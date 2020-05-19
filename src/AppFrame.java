@@ -1,40 +1,24 @@
-import java.awt.*;
-
 import javax.swing.*;
-
-import mdlaf.*;
-import mdlaf.utils.*;
-import mdlaf.animation.*;
 
 public class AppFrame extends JFrame{
 
-    private static final long serialVersionUID = 146571341364742862L;
+	private static final long serialVersionUID = 146571341364742862L;
 
     public AppFrame() {
-        super("Material Design UI for Swing by atharva washimkar");
+        super("Клуб любителей кошечек");
 
-        try {
-			UIManager.setLookAndFeel (new MaterialLookAndFeel ());
-		}
-		catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace ();
-		}
+		createMenuBar();
 
-		//this.setMinimumSize (new Dimension (600, 400));
+		this.setSize(600, 400);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+	}
+	
+	private void createMenuBar(){
+		JMenuBar menuBar = new JMenuBar();
+		
+		menuBar.add(new AddMenu());
 
-		JButton button = new JButton ("PRESS ME");
-		//button.setMaximumSize (new Dimension (200, 200));
-
-		JPanel content = new JPanel ();
-		content.add (button);
-		this.add (content, BorderLayout.CENTER);
-
-		// on hover, button will change to a light gray
-		MaterialUIMovement.add (button, MaterialColors.GRAY_100);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		this.pack ();
-		this.setVisible (true);
-    }
+		this.setJMenuBar(menuBar);
+	}
 }
