@@ -18,7 +18,7 @@ public class AddExhibitionFrame extends JFrame {
     private static final long serialVersionUID = -2075839617065501118L;
 
     private JTextField titleField;
-    private JComboBox cityComboBox;
+    private JComboBox<String> cityComboBox;
     private JDatePicker datePicker;
     private JButton applyButton;
 
@@ -28,14 +28,10 @@ public class AddExhibitionFrame extends JFrame {
         titleField = new JTextField(20);
 
         try {
-            String[] fuilds = { "title" };
-            String[][] data = Database.database.getDataFromSelect("city", fuilds);
-            String[] items = new String[data.length];
+            String[] label = {"title"};
+            String table = "city" ;
 
-            for (int i = 0; i < items.length; i++)
-                items[i] = data[i][0];
-
-            cityComboBox = new JComboBox<>(items);
+            cityComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();

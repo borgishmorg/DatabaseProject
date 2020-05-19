@@ -121,4 +121,14 @@ public class Database {
         
         return list.toArray(data);
     }
+
+    public String[] getColumnFromSelect(String table, String label[], int column) throws SQLException{
+        String[][] data = getDataFromSelect(table, label);
+        String[] items = new String[data.length];
+
+        for (int i = 0; i < items.length; i++)
+            items[i] = data[i][column-1];
+
+        return items;
+    }
 }

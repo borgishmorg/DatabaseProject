@@ -5,11 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import gui.frames.AddBreedFrame;
+import gui.frames.AddCatFrame;
 import gui.frames.AddCityFrame;
 import gui.frames.AddExhibitionFrame;
 import gui.frames.AddGenderFrame;
 import gui.frames.AddPersonFrame;
-import utils.*;
 
 public class AddMenu extends JMenu{
 
@@ -47,7 +47,7 @@ public class AddMenu extends JMenu{
 	class AddCatMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			new AddCatFrame();
 		}
     }    
     
