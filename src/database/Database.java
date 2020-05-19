@@ -11,7 +11,6 @@ public class Database {
 
     private Connection connect;
     private Statement statement;
-    private ResultSet resultSet;
 
     private Database() {
         try{
@@ -35,8 +34,7 @@ public class Database {
     private void createDataBase() throws SQLException{
         try{
             String sqlCreateDataBase = "CREATE DATABASE cats_club;";
-            Log.log.info("Execute: "+sqlCreateDataBase);
-            statement.executeUpdate(sqlCreateDataBase);
+            executeUpdate(sqlCreateDataBase);
         }catch(SQLException e){
             if(e.getErrorCode() == 1007){
                 Log.log.info(e.toString());
@@ -46,11 +44,10 @@ public class Database {
             }
         }try{
             String sqlUseDataBase = "USE cats_club;";
-            Log.log.info("Execute: "+sqlUseDataBase);
-            statement.executeUpdate(sqlUseDataBase);
+            executeUpdate(sqlUseDataBase);
         }catch(SQLException e){
             Log.log.error(e.toString());
-                throw e;
+            throw e;
         }
     }
 
@@ -74,8 +71,7 @@ public class Database {
         for(String sql : sqls){
             sql = sql.strip();
             try{
-                Log.log.info("Execute: "+sql);
-                statement.executeUpdate(sql);
+                executeUpdate(sql);
             }catch(SQLException e){
                 if(e.getErrorCode() == 1065 || e.getErrorCode() == 1050){
                     Log.log.info(e.toString());
@@ -91,5 +87,15 @@ public class Database {
         }catch(IOException e){
             Log.log.error(e.toString());
         }
+    }
+    
+    public int executeUpdate(String sql) throws SQLException{
+        Log.log.info("Execute: "+sql);
+        return statement.executeUpdate(sql);
+    }
+
+    public ResultSet executeQuery(String sql) throws SQLException{
+        Log.log.info("Execute: "+sql);
+        return statement.executeQuery(sql);
     }
 }

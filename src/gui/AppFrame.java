@@ -25,6 +25,7 @@ public class AppFrame extends JFrame{
 	private void createMenuBar(){
 		JMenuBar menuBar = new JMenuBar();
 		
+		menuBar.add(new TableMenu());
 		menuBar.add(new AddMenu());
 
 		this.setJMenuBar(menuBar);
