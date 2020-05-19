@@ -38,7 +38,14 @@ public class AddMenu extends JMenu{
 	class AddCatMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Log.log.debug("Add cat menu item clicked");
+            Log.log.debug("Add cat menu item clicked");
+            String column[] = {"Column 1", "Column 2", "Column 3"};
+            String data[][] = {
+                {"1", "2", "3"},
+                {"1", "2", "3"},
+                {"1", "2", "3"},
+            };
+            AppFrame.appFrame.addInternalFrame(new TableFrame(column, data));
 		}
     }    
     

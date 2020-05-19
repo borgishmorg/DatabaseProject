@@ -1,7 +1,6 @@
 public class App {
 
     private Database database;
-
     private AppFrame appFrame;
 
     public App(){
@@ -11,6 +10,6 @@ public class App {
             e.printStackTrace();
             System.exit(1);
         }
-        appFrame = new AppFrame();
+        appFrame = AppFrame.appFrame;
     }
 }
