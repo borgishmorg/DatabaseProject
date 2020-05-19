@@ -12,7 +12,7 @@ public class TableMenu extends JMenu{
     private static final long serialVersionUID = -8815980336375255542L;
 
     public TableMenu(){
-        super("Табцицы");
+        super("Таблицы");
 		
         JMenuItem menuItem = new JMenuItem("Коты");
 		menuItem.addActionListener(new CatMenuItemListener());
