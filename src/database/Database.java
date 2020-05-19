@@ -1,31 +1,35 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+package database;
+
+import java.io.*;
+import java.sql.*;
+
+import utils.*;
 
 public class Database {
+
+    public static final Database database = new Database();
 
     private Connection connect;
     private Statement statement;
     private ResultSet resultSet;
 
-    public Database() throws SQLException, ClassNotFoundException, FileNotFoundException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Log.log.info("Connecting to database");
-        connect = DriverManager.getConnection("jdbc:mysql://localhost/?"
-        + "user=root&password=1234567890q&"
-        + "serverTimezone=UTC");
-        Log.log.info("Connected");
-        statement = connect.createStatement();
-
-        createDataBase();
-        createTable();
+    private Database() {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Log.log.info("Connecting to database");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/?"
+            + "user=root&password=1234567890q&"
+            + "serverTimezone=UTC");
+            Log.log.info("Connected");
+            statement = connect.createStatement();
+            
+            createDataBase();
+            createTable();
+        }catch (Exception e) {
+            Log.log.error(e.toString());
+            Log.log.error(e.getStackTrace().toString());
+            System.exit(1);
+        }
     }
 
     private void createDataBase() throws SQLException{

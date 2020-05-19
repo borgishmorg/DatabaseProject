@@ -1,6 +1,10 @@
+package gui;
+
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import utils.*;
 
 public class AddMenu extends JMenu{
 
