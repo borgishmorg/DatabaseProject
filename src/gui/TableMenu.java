@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.event.*;
+import java.sql.ResultSet;
 
 import javax.swing.*;
 
@@ -14,62 +15,79 @@ public class TableMenu extends JMenu{
     public TableMenu(){
         super("Таблицы");
         
-        //TODO add submenu
-
+        addMenuItems();
+        addSeparator();
+        addRawMenuItems();
+    }
+    
+    public void addMenuItems(){
         JMenuItem menuItem = new JMenuItem("Коты");
 		menuItem.addActionListener(new CatMenuItemListener());
         add(menuItem);
-        menuItem = new JMenuItem("Коты (raw)");
-		menuItem.addActionListener(new CatMenuRawItemListener());
-		add(menuItem);
 		menuItem = new JMenuItem("Выставки");
 		menuItem.addActionListener(new ExhibitionMenuItemListener());
-		add(menuItem);
-		menuItem = new JMenuItem("Выставки (raw)");
-		menuItem.addActionListener(new ExhibitionMenuRawItemListener());
 		add(menuItem);
 		menuItem = new JMenuItem("Участие в выставке");
 		menuItem.addActionListener(new ParticipationMenuItemListener());
         add(menuItem);
-		menuItem = new JMenuItem("Участие в выставке (raw)");
-		menuItem.addActionListener(new ParticipationMenuRawItemListener());
-        add(menuItem);
-        
         addSeparator();
-        
 		menuItem = new JMenuItem("Люди");
 		menuItem.addActionListener(new PersonMenuItemListener());
-		add(menuItem);
-		menuItem = new JMenuItem("Люди (raw)");
-		menuItem.addActionListener(new PersonMenuRawItemListener());
 		add(menuItem);
 		menuItem = new JMenuItem("Города");
 		menuItem.addActionListener(new CityMenuItemListener());
 		add(menuItem);
-		menuItem = new JMenuItem("Города (raw)");
-		menuItem.addActionListener(new CityMenuRawItemListener());
-		add(menuItem);
 		menuItem = new JMenuItem("Порода");
 		menuItem.addActionListener(new BreedMenuItemListener());
-		add(menuItem);
-		menuItem = new JMenuItem("Порода (raw)");
-		menuItem.addActionListener(new BreedMenuRawItemListener());
 		add(menuItem);
 		menuItem = new JMenuItem("Пол");
 		menuItem.addActionListener(new GenderMenuItemListener());
 		add(menuItem);
-		menuItem = new JMenuItem("Пол (raw)");
-		menuItem.addActionListener(new GenderMenuRawItemListener());
-		add(menuItem);
     }
-  
+
+    public void addRawMenuItems(){
+        JMenu rawTablesMenu = new JMenu("Raw таблицы");
+        JMenuItem menuItem = new JMenuItem("Коты (raw)");
+        menuItem.addActionListener(new CatMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+        menuItem = new JMenuItem("Выставки (raw)");
+        menuItem.addActionListener(new ExhibitionMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+        menuItem = new JMenuItem("Участие в выставке (raw)");
+        menuItem.addActionListener(new ParticipationMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+        rawTablesMenu.addSeparator();
+        menuItem = new JMenuItem("Люди (raw)");
+        menuItem.addActionListener(new PersonMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+        menuItem = new JMenuItem("Города (raw)");
+        menuItem.addActionListener(new CityMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+		menuItem = new JMenuItem("Порода (raw)");
+		menuItem.addActionListener(new BreedMenuRawItemListener());
+		rawTablesMenu.add(menuItem);
+        menuItem = new JMenuItem("Пол (raw)");
+        menuItem.addActionListener(new GenderMenuRawItemListener());
+        rawTablesMenu.add(menuItem);
+        add(rawTablesMenu);
+    }
+
 	class CatMenuItemListener implements ActionListener{
-		@Override
+        @Override
 		public void actionPerformed(ActionEvent e) {
             try{
-                String column[] = {"Имя", "День рождения", "breed_id", "person_id", "gender_id", "father_id", "mother_id"};
-                String dataColumn[] = {"name", "birthday", "breed_id", "person_id", "gender_id", "father_id", "mother_id"};
-                String data[][] = Database.database.getDataFromSelect("cat", dataColumn);
+                //TODO add father and mother to output
+                String column[] = {"Имя", "День рождения", "Порода", "Хозяин", "Пол"};
+                
+                ResultSet rs = Database.database.executeQuery(
+                    "SELECT cat.name AS t1, cat.birthday AS t2, breed.name AS t3, person.name AS t4, gender AS t5 " + 
+                    "FROM cat" + 
+                    "   INNER JOIN breed ON cat.breed_id = breed.breed_id " + 
+                    "   INNER JOIN person ON cat.person_id = person.person_id " +
+                    "   INNER JOIN gender ON cat.gender_id = gender.gender_id; "
+                );
+
+                String data[][] = Database.getDataFromResultSet(rs);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Кошки", column, data));
             }catch(Exception exception){

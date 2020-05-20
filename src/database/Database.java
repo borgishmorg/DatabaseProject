@@ -100,13 +100,8 @@ public class Database {
         return statement.executeQuery(sql);
     }
 
-    public String[][] getDataFromSelect(String table, String label[]) throws SQLException{
-        String data[][] = {};
-            
-        ResultSet rs = Database.database.executeQuery(
-            "SELECT * FROM "+ table +";"
-        );
-                
+    public String[][] getDataFromSelect(String table, String label[]) throws SQLException{            
+        ResultSet rs = Database.database.executeQuery("SELECT * FROM "+ table +";");
         return getDataFromResultSet(rs, label);
     }
 
@@ -124,7 +119,6 @@ public class Database {
         String label[] = new String[rs.getMetaData().getColumnCount()];
         for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) 
             label[i] = rs.getMetaData().getColumnLabel(i+1);
-        
         return getDataFromResultSet(rs, label);
     }
 
