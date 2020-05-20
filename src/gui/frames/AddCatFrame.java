@@ -22,43 +22,30 @@ public class AddCatFrame extends JFrame {
     private JComboBox<String> breedComboBox;
     private JComboBox<String> personComboBox;
     private JComboBox<String> genderComboBox;
-    //TODO add father and mother selection
+    private JComboBox<String> fatherComboBox;
+    private JComboBox<String> motherComboBox;
     private JButton applyButton;
+    
+    private String[] fatherIds;
+    private String[] motherIds;
 
     public AddCatFrame() {
         super("Добавить кисоньку");
 
         nameField = new JTextField(20);
-
         datePicker = new JDatePicker();
 
         try {
-            String[] label = {"name"};
-            String table = "breed" ;
+            breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1));
+            personComboBox = new JComboBox<>(Database.database.getColumnFromSelect("person", new String[]{"name"}, 1));
+            genderComboBox = new JComboBox<>(Database.database.getColumnFromSelect("gender", new String[]{"gender"}, 1));
 
-            breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
-        } catch (SQLException exception) {
-            Log.log.error(exception.toString());
-            dispose();
-            return;
-        }
-
-        try {
-            String[] label = {"name"};
-            String table = "person" ;
-
-            personComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
-        } catch (SQLException exception) {
-            Log.log.error(exception.toString());
-            dispose();
-            return;
-        }
-
-        try {
-            String[] label = {"gender"};
-            String table = "gender" ;
-
-            genderComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
+            fatherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 1 ", 1));
+            fatherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 1 ", 1);
+            fatherComboBox.setSelectedIndex(-1);
+            motherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 2 ", 1));
+            motherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 2 ", 1);
+            motherComboBox.setSelectedIndex(-1);
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();
@@ -75,6 +62,8 @@ public class AddCatFrame extends JFrame {
         add(breedComboBox);
         add(personComboBox);
         add(genderComboBox);
+        add(fatherComboBox);
+        add(motherComboBox);
         add(applyButton);
 
         pack();
@@ -95,13 +84,19 @@ public class AddCatFrame extends JFrame {
             }
 
             int breed_id = breedComboBox.getSelectedIndex() + 1;
-            int person_id = breedComboBox.getSelectedIndex() + 1;
+            int person_id = personComboBox.getSelectedIndex() + 1;
             int gender_id = genderComboBox.getSelectedIndex() + 1;
-                        
+            int father_id = 0;
+            if(fatherComboBox.getSelectedIndex() != -1)
+                father_id = Integer.parseInt(fatherIds[fatherComboBox.getSelectedIndex()]);
+            int mother_id = 0;
+            if(motherComboBox.getSelectedIndex() != -1)
+                mother_id = Integer.parseInt(motherIds[motherComboBox.getSelectedIndex()]);
+            
             try{
                 Database.database.executeUpdate(
-                    "INSERT INTO cat(name, birthday, breed_id, person_id, gender_id) "+
-                    String.format("VALUES(\"%s\", \"%s\", %d, %d, %d);", name, birthday, breed_id, person_id, gender_id)
+                    "INSERT INTO cat(name, birthday, breed_id, person_id, gender_id, father_id, mother_id) "+
+                    String.format("VALUES(\"%s\", \"%s\", %d, %d, %d, %d, %d);", name, birthday, breed_id, person_id, gender_id, father_id, mother_id)
                 );
             }catch(SQLException exception){
                 Log.log.error(exception.toString());

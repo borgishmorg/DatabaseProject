@@ -71,6 +71,8 @@ public class Database {
         
         for(String sql : sqls){
             sql = sql.strip();
+            if (sql.length() == 0)
+                continue;
             try{
                 executeUpdate(sql);
             }catch(SQLException e){
@@ -101,8 +103,23 @@ public class Database {
         return getDataFromResultSet(rs, label);
     }
 
+    public String[][] getDataFromSelect(String table, String label[], String where) throws SQLException{            
+        ResultSet rs = Database.database.executeQuery("SELECT * FROM "+ table + " " + where +";");
+        return getDataFromResultSet(rs, label);
+    }
+
     public String[] getColumnFromSelect(String table, String label[], int column) throws SQLException{
         String[][] data = getDataFromSelect(table, label);
+        String[] items = new String[data.length];
+
+        for (int i = 0; i < items.length; i++)
+            items[i] = data[i][column-1];
+
+        return items;
+    }
+
+    public String[] getColumnFromSelect(String table, String label[], String where, int column) throws SQLException{
+        String[][] data = getDataFromSelect(table, label, where);
         String[] items = new String[data.length];
 
         for (int i = 0; i < items.length; i++)

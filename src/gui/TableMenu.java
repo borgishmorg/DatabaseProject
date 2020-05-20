@@ -76,15 +76,16 @@ public class TableMenu extends JMenu{
         @Override
 		public void actionPerformed(ActionEvent e) {
             try{
-                //TODO add father and mother to output
-                String column[] = {"Имя", "День рождения", "Порода", "Хозяин", "Пол"};
+                String column[] = {"Имя", "День рождения", "Порода", "Хозяин", "Пол", "Отец", "Мать"};
                 
                 ResultSet rs = Database.database.executeQuery(
-                    "SELECT cat.name AS t1, cat.birthday AS t2, breed.name AS t3, person.name AS t4, gender AS t5 " + 
+                    "SELECT cat.name AS t1, cat.birthday AS t2, breed.name AS t3, person.name AS t4, gender AS t5, cf.name AS t6, cm.name AS t7 " + 
                     "FROM cat" + 
                     "   INNER JOIN breed ON cat.breed_id = breed.breed_id " + 
                     "   INNER JOIN person ON cat.person_id = person.person_id " +
-                    "   INNER JOIN gender ON cat.gender_id = gender.gender_id; "
+                    "   INNER JOIN gender ON cat.gender_id = gender.gender_id " + 
+                    "   LEFT JOIN cat cf ON cat.father_id = cf.cat_id " +
+                    "   LEFT JOIN cat cm ON cat.mother_id = cm.cat_id; "
                 );
 
                 String data[][] = Database.getDataFromResultSet(rs);

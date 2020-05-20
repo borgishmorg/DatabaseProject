@@ -9,6 +9,7 @@ import gui.frames.AddCatFrame;
 import gui.frames.AddCityFrame;
 import gui.frames.AddExhibitionFrame;
 import gui.frames.AddGenderFrame;
+import gui.frames.AddParticipationFrame;
 import gui.frames.AddPersonFrame;
 
 public class AddMenu extends JMenu{
@@ -61,7 +62,7 @@ public class AddMenu extends JMenu{
 	class AddParticipationMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//TODO add AddParticipationFrame
+			new AddParticipationFrame();
 		}
 	}    
     
