@@ -95,7 +95,7 @@ public class TableMenu extends JMenu{
             }
 		}
     }    
-  
+
 	class CatMenuRawItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -115,9 +115,15 @@ public class TableMenu extends JMenu{
 		@Override
 		public void actionPerformed(ActionEvent e) {
             try{
-                String column[] = {"Название", "city_id", "Дата выставки"};
-                String dataColumn[] = {"title", "city_id", "exhibition_date"};
-                String data[][] = Database.database.getDataFromSelect("exhibition", dataColumn);
+                String column[] = {"Название", "Город", "Дата выставки"};
+
+                ResultSet rs = Database.database.executeQuery(
+                    "SELECT exhibition.title AS t1, city.title AS t2, exhibition_date " + 
+                    "FROM exhibition" + 
+                    "     INNER JOIN city ON exhibition.city_id = city.city_id;"
+                );
+
+                String data[][] = Database.getDataFromResultSet(rs);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Выставки", column, data));
             }catch(Exception exception){
@@ -145,9 +151,16 @@ public class TableMenu extends JMenu{
 		@Override
 		public void actionPerformed(ActionEvent e) {
             try{
-                String column[] = {"cat_id", "exhibition_id", "Место"};
-                String dataColumn[] = {"cat_id", "exhibition_id", "place"};
-                String data[][] = Database.database.getDataFromSelect("participation", dataColumn);
+                String column[] = {"Имя", "Выставка", "Место"};
+
+                ResultSet rs = Database.database.executeQuery(
+                    "SELECT name, title, place " + 
+                    "FROM participation" + 
+                    "     INNER JOIN cat ON participation.cat_id = cat.cat_id "+
+                    "     INNER JOIN exhibition ON participation.exhibition_id = exhibition.exhibition_id;"
+                );
+
+                String data[][] = Database.getDataFromResultSet(rs);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Участие в саревнованиях", column, data));
             }catch(Exception exception){

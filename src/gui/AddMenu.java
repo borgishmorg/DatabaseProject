@@ -61,7 +61,7 @@ public class AddMenu extends JMenu{
 	class AddParticipationMenuItemListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			//TODO add AddParticipationFrame
 		}
 	}    
     
