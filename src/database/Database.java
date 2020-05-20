@@ -54,20 +54,20 @@ public class Database {
 
     private void createTable() throws SQLException, FileNotFoundException{
         Log.log.info("Creating tables");
-        BufferedReader reader;
+        String data = "";
         try{
-            reader = new BufferedReader(new FileReader("sql/create_tables.sql"));
+            BufferedReader reader = new BufferedReader(new FileReader("sql/create_tables.sql"));
+            for (Object line : reader.lines().toArray())
+                data += line.toString() + " ";
+            reader.close();
         }catch(FileNotFoundException e){
             Log.log.error(e.toString());
             throw e;
+        }catch(IOException e){
+            Log.log.error(e.toString());
         }
 
-        String data = "";
-        for (Object line : reader.lines().toArray()) {
-            data += line.toString() + "\n";
-        } 
-
-        String[] sqls = data.replace('\n', ' ').strip().split(";");
+        String[] sqls = data.split(";");
         
         for(String sql : sqls){
             sql = sql.strip();
@@ -83,11 +83,7 @@ public class Database {
             }
         }
         Log.log.info("Created");
-        try{
-            reader.close();
-        }catch(IOException e){
-            Log.log.error(e.toString());
-        }
+        
     }
     
     public int executeUpdate(String sql) throws SQLException{
