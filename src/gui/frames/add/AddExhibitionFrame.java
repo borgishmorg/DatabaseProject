@@ -10,6 +10,7 @@ import javax.swing.*;
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class AddExhibitionFrame extends JFrame {
@@ -27,10 +28,7 @@ public class AddExhibitionFrame extends JFrame {
         titleField = new JTextField(20);
 
         try {
-            String[] label = {"title"};
-            String table = "city" ;
-
-            cityComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
+            cityComboBox = new SQLSelectComboBox("city", "title");
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();

@@ -3,6 +3,7 @@ package gui.frames.edit;
 import javax.swing.*;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 import java.awt.*;
@@ -21,7 +22,7 @@ public class EditBreedFrame extends JFrame{
         super("Изменить породу");
         
         try{
-            breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1));
+            breedComboBox = new SQLSelectComboBox("breed", "name");
             breedComboBox.setSelectedIndex(-1);
             breedComboBox.addActionListener(new BreedComboBoxListener());
         }catch(SQLException exception){
@@ -71,7 +72,7 @@ public class EditBreedFrame extends JFrame{
             int breed_id = breedComboBox.getSelectedIndex();
             String breed;
             try{
-                breed = Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1)[breed_id];
+                breed = Database.database.getColumnFromSelect("breed", "name", 1)[breed_id];
             }catch(SQLException exception){
                 Log.log.error(exception.toString());
                 EditBreedFrame.this.dispose();

@@ -13,6 +13,7 @@ import javax.swing.*;
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class EditCatFrame extends JFrame {
@@ -39,18 +40,18 @@ public class EditCatFrame extends JFrame {
         datePicker = new JDatePicker();
 
         try {
-            catComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1));
-            catComboBox.setSelectedIndex(-1);
+            catComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", "name", 1));
             catComboBox.addActionListener(new CatComboBoxListener());
-            breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1));
-            personComboBox = new JComboBox<>(Database.database.getColumnFromSelect("person", new String[]{"name"}, 1));
-            genderComboBox = new JComboBox<>(Database.database.getColumnFromSelect("gender", new String[]{"gender"}, 1));
-            fatherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 1 ", 1));
-            fatherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 1 ", 1);
+            breedComboBox = new SQLSelectComboBox("breed", "name");
+            personComboBox = new SQLSelectComboBox("person", "name");
+            genderComboBox = new SQLSelectComboBox("gender", "gender");
+            fatherComboBox = new SQLSelectComboBox("cat", "name", "gender_id = 1");
+            motherComboBox = new SQLSelectComboBox("cat", "name", "gender_id = 2");
+            catComboBox.setSelectedIndex(-1);
             fatherComboBox.setSelectedIndex(-1);
-            motherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 2 ", 1));
-            motherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 2 ", 1);
             motherComboBox.setSelectedIndex(-1);
+            fatherIds = Database.database.getColumnFromSelect("cat", "cat_id", "gender_id = 1 ", 1);
+            motherIds = Database.database.getColumnFromSelect("cat", "cat_id", "gender_id = 2 ", 1);
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();
@@ -129,13 +130,13 @@ public class EditCatFrame extends JFrame {
             int mother_id;
 
             try{
-                name = Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1)[cat_id];
-                birthday = new SimpleDateFormat("yyyy-MM-dd").parse(Database.database.getColumnFromSelect("cat", new String[]{"birthday"}, 1)[cat_id]);
-                breed_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"breed_id"}, 1)[cat_id]);
-                person_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"person_id"}, 1)[cat_id]);
-                gender_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"gender_id"}, 1)[cat_id]);
-                father_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"father_id"}, 1)[cat_id]);
-                mother_id =  Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"mother_id"}, 1)[cat_id]);
+                name = Database.database.getColumnFromSelect("cat", "name", 1)[cat_id];
+                birthday = new SimpleDateFormat("yyyy-MM-dd").parse(Database.database.getColumnFromSelect("cat", "birthday", 1)[cat_id]);
+                breed_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", "breed_id", 1)[cat_id]);
+                person_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", "person_id", 1)[cat_id]);
+                gender_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", "gender_id", 1)[cat_id]);
+                father_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", "father_id", 1)[cat_id]);
+                mother_id =  Integer.parseInt(Database.database.getColumnFromSelect("cat", "mother_id", 1)[cat_id]);
             }catch(Exception exception){
                 Log.log.error(exception.toString());
                 EditCatFrame.this.dispose();

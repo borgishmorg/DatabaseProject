@@ -7,6 +7,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class AddParticipationFrame extends JFrame{
@@ -22,8 +23,8 @@ public class AddParticipationFrame extends JFrame{
         super("Добавить участие");
 
         try{
-            catComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1));
-            exhibitionComboBox = new JComboBox<>(Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1));
+            catComboBox = new SQLSelectComboBox("cat", "name");
+            exhibitionComboBox = new SQLSelectComboBox("exhibition", "title");
         }catch(SQLException exception){
             Log.log.error(exception.toString());
             dispose();

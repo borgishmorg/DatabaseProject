@@ -8,6 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class EditParticipationFrame extends JFrame{
@@ -23,17 +24,15 @@ public class EditParticipationFrame extends JFrame{
     public EditParticipationFrame(){
         super("Изменить участие");
         try{
-            ResultSet rs = Database.database.executeQuery(
-                "SELECT CONCAT(name, \" - \", title) "+
-                "FROM participation p "+
-                "   LEFT JOIN cat ON cat.cat_id = p.cat_id" +
-                "   LEFT JOIN exhibition ex ON ex.exhibition_id = p.exhibition_id;"
-            );
-            participationComboBox = new JComboBox<>(Database.getColumnFromResultSet(rs, 1));
+            participationComboBox = new SQLSelectComboBox(
+                "participation p " +
+                "LEFT JOIN cat ON cat.cat_id = p.cat_id " +
+                "LEFT JOIN exhibition ex ON ex.exhibition_id = p.exhibition_id ",
+                "CONCAT(name, \" - \", title)");
+            catComboBox = new SQLSelectComboBox("cat", "name");
+            exhibitionComboBox = new SQLSelectComboBox("exhibition", "title");
             participationComboBox.setSelectedIndex(-1);
             participationComboBox.addActionListener(new ParticipationComboBoxListener());
-            catComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1));
-            exhibitionComboBox = new JComboBox<>(Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1));
         }catch(SQLException exception){
             Log.log.error(exception.toString());
             dispose();
@@ -93,9 +92,9 @@ public class EditParticipationFrame extends JFrame{
             int exhibition_id;
             String place;
             try{
-                cat_id = Integer.parseInt(Database.database.getColumnFromSelect("participation", new String[]{"cat_id"}, 1)[participation_id]);
-                exhibition_id = Integer.parseInt(Database.database.getColumnFromSelect("participation", new String[]{"exhibition_id"}, 1)[participation_id]);
-                place = Database.database.getColumnFromSelect("participation", new String[]{"place"}, 1)[participation_id];
+                cat_id = Integer.parseInt(Database.database.getColumnFromSelect("participation", "cat_id", 1)[participation_id]);
+                exhibition_id = Integer.parseInt(Database.database.getColumnFromSelect("participation", "exhibition_id", 1)[participation_id]);
+                place = Database.database.getColumnFromSelect("participation", "place", 1)[participation_id];
             }catch(Exception exception){
                 Log.log.error(exception.toString());
                 EditParticipationFrame.this.dispose();

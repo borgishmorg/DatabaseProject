@@ -102,8 +102,8 @@ public class TableMenu extends JMenu{
 		public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"cat_id", "Имя", "День рождения", "breed_id", "person_id", "gender_id", "father_id", "mother_id"};
-                String dataColumn[] = {"cat_id", "name", "birthday", "breed_id", "person_id", "gender_id", "father_id", "mother_id"};
-                String data[][] = Database.database.getDataFromSelect("cat", dataColumn);
+                String label = "cat_id, name, birthday, breed_id, person_id, gender_id, father_id, mother_id";
+                String data[][] = Database.database.getDataFromSelect("cat", label);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Кошки (raw)", column, data));
             }catch(Exception exception){
@@ -138,8 +138,8 @@ public class TableMenu extends JMenu{
 		public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"exhibition_id", "Название", "city_id", "Дата выставки"};
-                String dataColumn[] = {"exhibition_id", "title", "city_id", "exhibition_date"};
-                String data[][] = Database.database.getDataFromSelect("exhibition", dataColumn);
+                String label = "exhibition_id, title, city_id, exhibition_date";
+                String data[][] = Database.database.getDataFromSelect("exhibition", label);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Выставки (raw)", column, data));
             }catch(Exception exception){
@@ -175,8 +175,8 @@ public class TableMenu extends JMenu{
 		public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"participation_id", "cat_id", "exhibition_id", "Место"};
-                String dataColumn[] = {"participation_id", "cat_id", "exhibition_id", "place"};
-                String data[][] = Database.database.getDataFromSelect("participation", dataColumn);
+                String lable = "participation_id, cat_id, exhibition_id, place";
+                String data[][] = Database.database.getDataFromSelect("participation", lable);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Участие в саревнованиях (raw)", column, data));
             }catch(Exception exception){
@@ -190,8 +190,7 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"Человек"};
-                String dataColumn[] = {"name"};
-                String data[][] = Database.database.getDataFromSelect("person", dataColumn);
+                String data[][] = Database.database.getDataFromSelect("person", "name");
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Люди", column, data));
             }catch(Exception exception){
@@ -205,8 +204,8 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"person_id", "Человек"};
-                String dataColumn[] = {"person_id", "name"};
-                String data[][] = Database.database.getDataFromSelect("person", dataColumn);
+                String lable = "person_id, name";
+                String data[][] = Database.database.getDataFromSelect("person", lable);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Люди (raw)", column, data));
             }catch(Exception exception){
@@ -220,8 +219,7 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"Город"};
-                String dataColumn[] = {"title"};
-                String data[][] = Database.database.getDataFromSelect("city", dataColumn);
+                String data[][] = Database.database.getDataFromSelect("city", "title");
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Города", column, data));
             }catch(Exception exception){
@@ -235,8 +233,8 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"city_id", "Город"};
-                String dataColumn[] = {"city_id", "title"};
-                String data[][] = Database.database.getDataFromSelect("city", dataColumn);
+                String label = "city_id, title";
+                String data[][] = Database.database.getDataFromSelect("city", label);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Города (raw)", column, data));
             }catch(Exception exception){
@@ -250,8 +248,7 @@ public class TableMenu extends JMenu{
 		public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"Порода"};
-                String dataColumn[] = {"name"};
-                String data[][] = Database.database.getDataFromSelect("breed", dataColumn);
+                String data[][] = Database.database.getDataFromSelect("breed", "name");
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Породы", column, data));
             }catch(Exception exception){
@@ -265,8 +262,8 @@ public class TableMenu extends JMenu{
 		public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"breed_id", "Порода"};
-                String dataColumn[] = {"breed_id", "name"};
-                String data[][] = Database.database.getDataFromSelect("breed", dataColumn);
+                String label = "breed_id, name";
+                String data[][] = Database.database.getDataFromSelect("breed", label);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Породы (raw)", column, data));
             }catch(Exception exception){
@@ -280,8 +277,7 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"Пол"};
-                String dataColumn[] = {"gender"};
-                String data[][] = Database.database.getDataFromSelect("gender", dataColumn);
+                String data[][] = Database.database.getDataFromSelect("gender", "gender");
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Пол", column, data));
             }catch(Exception exception){
@@ -295,8 +291,8 @@ public class TableMenu extends JMenu{
         public void actionPerformed(ActionEvent e) {
             try{
                 String column[] = {"gender_id", "Пол"};
-                String dataColumn[] = {"gender_id", "gender"};
-                String data[][] = Database.database.getDataFromSelect("gender", dataColumn);
+                String label = "gender_id, gender";
+                String data[][] = Database.database.getDataFromSelect("gender", label);
                 
                 AppFrame.appFrame.addInternalFrame(new TableFrame("Таблица: Пол (raw)", column, data));
             }catch(Exception exception){

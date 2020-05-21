@@ -10,6 +10,7 @@ import javax.swing.*;
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class AddCatFrame extends JFrame {
@@ -35,16 +36,15 @@ public class AddCatFrame extends JFrame {
         datePicker = new JDatePicker();
 
         try {
-            breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1));
-            personComboBox = new JComboBox<>(Database.database.getColumnFromSelect("person", new String[]{"name"}, 1));
-            genderComboBox = new JComboBox<>(Database.database.getColumnFromSelect("gender", new String[]{"gender"}, 1));
-
-            fatherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 1 ", 1));
-            fatherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 1 ", 1);
+            breedComboBox = new SQLSelectComboBox("breed", "name");
+            personComboBox = new SQLSelectComboBox("person", "name");
+            genderComboBox = new SQLSelectComboBox("gender", "gender");
+            fatherComboBox = new SQLSelectComboBox("cat", "name", "gender_id = 1");
+            motherComboBox = new SQLSelectComboBox("cat", "name", "gender_id = 2");
             fatherComboBox.setSelectedIndex(-1);
-            motherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 2 ", 1));
-            motherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 2 ", 1);
             motherComboBox.setSelectedIndex(-1);
+            fatherIds = Database.database.getColumnFromSelect("cat", "cat_id", "gender_id = 1", 1);
+            motherIds = Database.database.getColumnFromSelect("cat", "cat_id", "gender_id = 2", 1);
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();

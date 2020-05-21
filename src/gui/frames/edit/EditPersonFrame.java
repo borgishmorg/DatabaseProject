@@ -3,6 +3,7 @@ package gui.frames.edit;
 import javax.swing.*;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 import java.awt.*;
@@ -21,7 +22,7 @@ public class EditPersonFrame extends JFrame{
         super("Изменить человека");
         
         try{
-            personComboBox = new JComboBox<>(Database.database.getColumnFromSelect("person", new String[]{"name"}, 1));
+            personComboBox = new SQLSelectComboBox("person", "name");
             personComboBox.setSelectedIndex(-1);
             personComboBox.addActionListener(new PersonComboBoxListener());
         }catch(SQLException exception){
@@ -71,7 +72,7 @@ public class EditPersonFrame extends JFrame{
             int person_id = personComboBox.getSelectedIndex();
             String person;
             try{
-                person = Database.database.getColumnFromSelect("person", new String[]{"name"}, 1)[person_id];
+                person = Database.database.getColumnFromSelect("person", "name", 1)[person_id];
             }catch(SQLException exception){
                 Log.log.error(exception.toString());
                 EditPersonFrame.this.dispose();

@@ -12,6 +12,7 @@ import javax.swing.*;
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
+import gui.SQLSelectComboBox;
 import utils.Log;
 
 public class EditExhibitionFrame extends JFrame {
@@ -28,7 +29,7 @@ public class EditExhibitionFrame extends JFrame {
         super("Изменить выставку");
         
         try{
-            exhibitionComboBox = new JComboBox<>(Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1));
+            exhibitionComboBox = new SQLSelectComboBox("exhibition", "title");
             exhibitionComboBox.setSelectedIndex(-1);
             exhibitionComboBox.addActionListener(new ExhibitionComboBoxListener());
         }catch(SQLException exception){
@@ -40,10 +41,7 @@ public class EditExhibitionFrame extends JFrame {
         titleField = new JTextField(20);
 
         try {
-            String[] label = {"title"};
-            String table = "city" ;
-
-            cityComboBox = new JComboBox<>(Database.database.getColumnFromSelect(table, label, 1));
+            cityComboBox = new JComboBox<>(Database.database.getColumnFromSelect("city", "title", 1));
         } catch (SQLException exception) {
             Log.log.error(exception.toString());
             dispose();
@@ -106,12 +104,12 @@ public class EditExhibitionFrame extends JFrame {
             int city_id;
             Date exhibition_date;
             try{
-                title = Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1)[exhibition_id];
+                title = Database.database.getColumnFromSelect("exhibition", "title", 1)[exhibition_id];
                 city_id = Integer.parseInt(
-                    Database.database.getColumnFromSelect("exhibition", new String[]{"city_id"}, 1)[exhibition_id]
+                    Database.database.getColumnFromSelect("exhibition", "city_id", 1)[exhibition_id]
                     );
                 exhibition_date = new SimpleDateFormat("yyyy-MM-dd").parse(
-                    Database.database.getColumnFromSelect("exhibition", new String[]{"exhibition_date"}, 1)[exhibition_id]
+                    Database.database.getColumnFromSelect("exhibition", "exhibition_date", 1)[exhibition_id]
                     );
             }catch(Exception exception){
                 Log.log.error(exception.toString());
