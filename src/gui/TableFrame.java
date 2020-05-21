@@ -9,7 +9,8 @@ public class TableFrame extends JInternalFrame{
     public TableFrame(String title, String column[], String data[][]) {
         super(title, true, true, true, true);
         JTable jt = new JTable(data,column); 
-		jt.setEnabled(false);       
+        jt.setEnabled(false);  
+        jt.setAutoCreateRowSorter(true);     
 		JScrollPane sp=new JScrollPane(jt);    
 		add(sp);
     }
