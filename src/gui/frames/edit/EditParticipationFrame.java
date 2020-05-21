@@ -1,6 +1,5 @@
 package gui.frames.edit;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.awt.event.*;
