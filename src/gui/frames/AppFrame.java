@@ -1,6 +1,8 @@
-package gui;
+package gui.frames;
 
 import javax.swing.*;
+
+import gui.menu.*;
 
 public class AppFrame extends JFrame{
 

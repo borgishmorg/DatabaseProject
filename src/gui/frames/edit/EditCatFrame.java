@@ -3,17 +3,14 @@ package gui.frames.edit;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 import javax.swing.*;
 
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
-import gui.SQLSelectComboBox;
+import gui.components.*;
 import utils.Log;
 
 public class EditCatFrame extends JFrame {

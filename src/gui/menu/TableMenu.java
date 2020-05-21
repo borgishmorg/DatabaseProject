@@ -1,4 +1,4 @@
-package gui;
+package gui.menu;
 
 import java.awt.event.*;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import javax.swing.*;
 
 import database.Database;
+import gui.frames.*;
 import utils.*;
 
 public class TableMenu extends JMenu{

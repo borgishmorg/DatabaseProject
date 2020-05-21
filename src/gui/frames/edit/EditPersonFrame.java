@@ -3,7 +3,7 @@ package gui.frames.edit;
 import javax.swing.*;
 
 import database.Database;
-import gui.SQLSelectComboBox;
+import gui.components.*;
 import utils.Log;
 
 import java.awt.*;

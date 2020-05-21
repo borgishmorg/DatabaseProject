@@ -12,7 +12,7 @@ import javax.swing.*;
 import org.jdatepicker.JDatePicker;
 
 import database.Database;
-import gui.SQLSelectComboBox;
+import gui.components.*;
 import utils.Log;
 
 public class EditExhibitionFrame extends JFrame {

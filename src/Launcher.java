@@ -1,4 +1,4 @@
-import gui.AppFrame;
+import gui.frames.AppFrame;
 import database.Database;
 
 class Launcher{

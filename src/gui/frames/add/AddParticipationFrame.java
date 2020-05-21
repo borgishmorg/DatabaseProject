@@ -7,7 +7,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import database.Database;
-import gui.SQLSelectComboBox;
+import gui.components.*;
 import utils.Log;
 
 public class AddParticipationFrame extends JFrame{
