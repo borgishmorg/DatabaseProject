@@ -3,6 +3,8 @@ package gui.frames.edit;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
@@ -16,6 +18,7 @@ public class EditExhibitionFrame extends JFrame {
 
     private static final long serialVersionUID = -2075839617065501118L;
 
+    private JComboBox<String> exhibitionComboBox;
     private JTextField titleField;
     private JComboBox<String> cityComboBox;
     private JDatePicker datePicker;
@@ -23,7 +26,17 @@ public class EditExhibitionFrame extends JFrame {
 
     public EditExhibitionFrame() {
         super("Добавить выставку");
-        //TODO
+        
+        try{
+            exhibitionComboBox = new JComboBox<>(Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1));
+            exhibitionComboBox.setSelectedIndex(-1);
+            exhibitionComboBox.addActionListener(new ExhibitionComboBoxListener());
+        }catch(SQLException exception){
+            Log.log.error(exception.toString());
+            dispose();
+            return;
+        }
+
         titleField = new JTextField(20);
 
         try {
@@ -44,6 +57,7 @@ public class EditExhibitionFrame extends JFrame {
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+        add(exhibitionComboBox);
         add(titleField);
         add(cityComboBox);
         add(datePicker);
@@ -56,6 +70,9 @@ public class EditExhibitionFrame extends JFrame {
     class ApplyButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            int exhibition_id = exhibitionComboBox.getSelectedIndex() + 1;
+            if(exhibition_id == 0)
+                return;
             String title = titleField.getText().substring(0, Math.min(50, titleField.getText().length()));
             int city_id = cityComboBox.getSelectedIndex() + 1;
             String exhibition_date;
@@ -69,8 +86,9 @@ public class EditExhibitionFrame extends JFrame {
                         
             try{
                 Database.database.executeUpdate(
-                    "INSERT INTO exhibition(title, city_id, exhibition_date) "+
-                    String.format("VALUES(\"%s\", \"%d\", \"%s\");", title, city_id, exhibition_date)
+                    "UPDATE exhibition SET "+
+                    String.format("title=\"%s\", city_id=%d, exhibition_date=\"%s\" ", title, city_id, exhibition_date) +
+                    String.format("WHERE exhibition_id=%d ;", exhibition_id)
                 );
             }catch(SQLException exception){
                 Log.log.error(exception.toString());
@@ -79,4 +97,37 @@ public class EditExhibitionFrame extends JFrame {
             }
         }
     } 
+
+    class ExhibitionComboBoxListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int exhibition_id = exhibitionComboBox.getSelectedIndex();
+            String title;
+            int city_id;
+            Date exhibition_date;
+            try{
+                title = Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1)[exhibition_id];
+                city_id = Integer.parseInt(
+                    Database.database.getColumnFromSelect("exhibition", new String[]{"city_id"}, 1)[exhibition_id]
+                    );
+                exhibition_date = new SimpleDateFormat("yyyy-MM-dd").parse(
+                    Database.database.getColumnFromSelect("exhibition", new String[]{"exhibition_date"}, 1)[exhibition_id]
+                    );
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+                EditExhibitionFrame.this.dispose();
+                return;
+            }
+            titleField.setText(title);
+            cityComboBox.setSelectedIndex(city_id-1);
+            
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(exhibition_date);
+
+            datePicker.getModel().setYear(cal.get(Calendar.YEAR));
+            datePicker.getModel().setMonth(cal.get(Calendar.MONTH));
+            datePicker.getModel().setDay(cal.get(Calendar.DAY_OF_MONTH));
+            datePicker.getModel().setSelected(true);
+        }
+    }
 }
