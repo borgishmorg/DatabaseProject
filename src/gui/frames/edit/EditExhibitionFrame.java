@@ -25,7 +25,7 @@ public class EditExhibitionFrame extends JFrame {
     private JButton applyButton;
 
     public EditExhibitionFrame() {
-        super("Добавить выставку");
+        super("Изменить выставку");
         
         try{
             exhibitionComboBox = new JComboBox<>(Database.database.getColumnFromSelect("exhibition", new String[]{"title"}, 1));

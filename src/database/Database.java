@@ -117,38 +117,48 @@ public class Database {
 
         return items;
     }
-
+        
     public String[] getColumnFromSelect(String table, String label[], String where, int column) throws SQLException{
         String[][] data = getDataFromSelect(table, label, where);
         String[] items = new String[data.length];
-
+        
         for (int i = 0; i < items.length; i++)
-            items[i] = data[i][column-1];
-
+        items[i] = data[i][column-1];
+        
         return items;
     }
-
+    
     public static String[][] getDataFromResultSet(ResultSet rs) throws SQLException{
         String label[] = new String[rs.getMetaData().getColumnCount()];
         for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) 
-            label[i] = rs.getMetaData().getColumnLabel(i+1);
+        label[i] = rs.getMetaData().getColumnLabel(i+1);
         return getDataFromResultSet(rs, label);
     }
-
+        
     public static String[][] getDataFromResultSet(ResultSet rs, String[] label) throws SQLException{
         String data[][] = {};
         ArrayList<String[]> list = new ArrayList<>();
-
+        
         while(rs.next()){
             String arr[] = {};
             ArrayList<String> arrlist = new ArrayList<>();
-
+            
             for(String s: label)
-                arrlist.add(rs.getString(s));
+            arrlist.add(rs.getString(s));
             
             list.add(arrlist.toArray(arr));
         }
         
         return list.toArray(data);
+    }
+    
+    public static String[] getColumnFromResultSet(ResultSet rs, int column) throws SQLException{
+        String[][] data = getDataFromResultSet(rs);
+        String[] items = new String[data.length];
+    
+        for (int i = 0; i < items.length; i++)
+            items[i] = data[i][column-1];
+    
+        return items;
     }
 }
