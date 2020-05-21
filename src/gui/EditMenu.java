@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import gui.frames.*;
+import gui.frames.edit.*;
 
 public class EditMenu extends JMenu{
 

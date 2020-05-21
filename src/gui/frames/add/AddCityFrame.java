@@ -1,4 +1,4 @@
-package gui.frames;
+package gui.frames.add;
 
 import javax.swing.*;
 

@@ -4,13 +4,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import gui.frames.AddBreedFrame;
-import gui.frames.AddCatFrame;
-import gui.frames.AddCityFrame;
-import gui.frames.AddExhibitionFrame;
-import gui.frames.AddGenderFrame;
-import gui.frames.AddParticipationFrame;
-import gui.frames.AddPersonFrame;
+import gui.frames.add.*;
 
 public class AddMenu extends JMenu{
 

@@ -1,4 +1,4 @@
-package gui.frames;
+package gui.frames.edit;
 
 import java.sql.SQLException;
 

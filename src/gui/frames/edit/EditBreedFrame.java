@@ -1,4 +1,4 @@
-package gui.frames;
+package gui.frames.edit;
 
 import javax.swing.*;
 
@@ -9,16 +9,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
-public class AddBreedFrame extends JFrame{
+public class EditBreedFrame extends JFrame{
     
     private static final long serialVersionUID = 8514484897952271335L;
     
     private JTextField breedText;
     private JButton applyBreed;
 
-    public AddBreedFrame(){
+    public EditBreedFrame(){
         super("Добавить породу");
-        
+                //TODO
         breedText = new JTextField();
         breedText.setColumns(20);    
                 
@@ -44,7 +44,7 @@ public class AddBreedFrame extends JFrame{
             }catch(SQLException exception){
                 Log.log.error(exception.toString());
             }finally{
-                AddBreedFrame.this.dispose();
+                EditBreedFrame.this.dispose();
             }
         }
     }
