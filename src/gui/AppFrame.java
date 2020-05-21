@@ -27,6 +27,7 @@ public class AppFrame extends JFrame{
 		
 		menuBar.add(new TableMenu());
 		menuBar.add(new AddMenu());
+		menuBar.add(new EditMenu());
 
 		this.setJMenuBar(menuBar);
 	}
