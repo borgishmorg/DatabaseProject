@@ -3,6 +3,9 @@ package gui.frames.edit;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
@@ -16,6 +19,7 @@ public class EditCatFrame extends JFrame {
 
     private static final long serialVersionUID = 14561L;
 
+    private JComboBox<String> catComboBox;
     private JTextField nameField;
     private JDatePicker datePicker;
     private JComboBox<String> breedComboBox;
@@ -29,16 +33,18 @@ public class EditCatFrame extends JFrame {
     private String[] motherIds;
 
     public EditCatFrame() {
-        super("Добавить кисоньку");
-        //TODO
+        super("Изменить кисоньку");
+        
         nameField = new JTextField(20);
         datePicker = new JDatePicker();
 
         try {
+            catComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1));
+            catComboBox.setSelectedIndex(-1);
+            catComboBox.addActionListener(new CatComboBoxListener());
             breedComboBox = new JComboBox<>(Database.database.getColumnFromSelect("breed", new String[]{"name"}, 1));
             personComboBox = new JComboBox<>(Database.database.getColumnFromSelect("person", new String[]{"name"}, 1));
             genderComboBox = new JComboBox<>(Database.database.getColumnFromSelect("gender", new String[]{"gender"}, 1));
-
             fatherComboBox = new JComboBox<>(Database.database.getColumnFromSelect("cat", new String[]{"name"}, " WHERE gender_id = 1 ", 1));
             fatherIds = Database.database.getColumnFromSelect("cat", new String[]{"cat_id"}, " WHERE gender_id = 1 ", 1);
             fatherComboBox.setSelectedIndex(-1);
@@ -56,6 +62,7 @@ public class EditCatFrame extends JFrame {
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+        add(catComboBox);
         add(nameField);
         add(datePicker);
         add(breedComboBox);
@@ -72,6 +79,9 @@ public class EditCatFrame extends JFrame {
     class ApplyButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            int cat_id = catComboBox.getSelectedIndex() + 1;
+            if(cat_id == 0)
+                return;
             String name = nameField.getText().substring(0, Math.min(50, nameField.getText().length()));
             String birthday;
             try{
@@ -94,8 +104,9 @@ public class EditCatFrame extends JFrame {
             
             try{
                 Database.database.executeUpdate(
-                    "INSERT INTO cat(name, birthday, breed_id, person_id, gender_id, father_id, mother_id) "+
-                    String.format("VALUES(\"%s\", \"%s\", %d, %d, %d, %d, %d);", name, birthday, breed_id, person_id, gender_id, father_id, mother_id)
+                    "UPDATE cat SET "+
+                    String.format("name=\"%s\", birthday=\"%s\", breed_id=%d, person_id=%d, gender_id=%d, father_id=%d, mother_id=%d ", name, birthday, breed_id, person_id, gender_id, father_id, mother_id)+
+                    String.format("WHERE cat_id=%d ;", cat_id)
                 );
             }catch(SQLException exception){
                 Log.log.error(exception.toString());
@@ -104,4 +115,45 @@ public class EditCatFrame extends JFrame {
             }
         }
     } 
+
+    class CatComboBoxListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int cat_id = catComboBox.getSelectedIndex();
+            String name;
+            Date birthday;
+            int breed_id;
+            int person_id;
+            int gender_id;
+            int father_id;
+            int mother_id;
+
+            try{
+                name = Database.database.getColumnFromSelect("cat", new String[]{"name"}, 1)[cat_id];
+                birthday = new SimpleDateFormat("yyyy-MM-dd").parse(Database.database.getColumnFromSelect("cat", new String[]{"birthday"}, 1)[cat_id]);
+                breed_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"breed_id"}, 1)[cat_id]);
+                person_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"person_id"}, 1)[cat_id]);
+                gender_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"gender_id"}, 1)[cat_id]);
+                father_id = Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"father_id"}, 1)[cat_id]);
+                mother_id =  Integer.parseInt(Database.database.getColumnFromSelect("cat", new String[]{"mother_id"}, 1)[cat_id]);
+            }catch(Exception exception){
+                Log.log.error(exception.toString());
+                EditCatFrame.this.dispose();
+                return;
+            }
+
+            nameField.setText(name);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(birthday);
+            datePicker.getModel().setYear(cal.get(Calendar.YEAR));
+            datePicker.getModel().setMonth(cal.get(Calendar.MONTH));
+            datePicker.getModel().setDay(cal.get(Calendar.DAY_OF_MONTH));
+            datePicker.getModel().setSelected(true);
+            breedComboBox.setSelectedIndex(breed_id-1);
+            personComboBox.setSelectedIndex(person_id-1);
+            genderComboBox.setSelectedIndex(gender_id-1);
+            fatherComboBox.setSelectedIndex(Arrays.asList(fatherIds).indexOf(father_id+""));
+            motherComboBox.setSelectedIndex(Arrays.asList(motherIds).indexOf(mother_id+""));
+        } 
+    }
 }
