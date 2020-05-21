@@ -79,6 +79,5 @@ public class EditGenderFrame extends JFrame{
             }
             genderText.setText(gender);
         }
-        
     }
 }
