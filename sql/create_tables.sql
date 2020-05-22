@@ -39,7 +39,7 @@ CREATE TABLE city (
 CREATE TABLE participation (
   participation_id INTEGER NOT NULL PRIMARY KEY  AUTO_INCREMENT,
   cat_id INTEGER,
-   exhibition_id INTEGER,
+  exhibition_id INTEGER,
   place INTEGER
 );
 

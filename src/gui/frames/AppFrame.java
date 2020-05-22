@@ -30,6 +30,7 @@ public class AppFrame extends JFrame{
 		menuBar.add(new TableMenu());
 		menuBar.add(new AddMenu());
 		menuBar.add(new EditMenu());
+		menuBar.add(new SearchMenu());
 
 		this.setJMenuBar(menuBar);
 	}
