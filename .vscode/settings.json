@@ -5,19 +5,5 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
-    "java.dependency.packagePresentation": "flat",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ],
-    "sqltools.connections": [
-        {
-            "database": "cats_club",
-            "dialect": "MySQL",
-            "name": "1",
-            "password": "1234567890q",
-            "port": 3306,
-            "server": "localhost",
-            "username": "root"
-        }
-    ]
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
